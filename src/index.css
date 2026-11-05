@@ -1,0 +1,507 @@
+@import "tailwindcss";
+
+/* ─── Reveal.js core imports ─────────────────────────────────────────────── */
+@import "reveal.js/reveal.css";
+@import "reveal.js/theme/black.css";
+@import "reveal.js/plugin/highlight/monokai.css";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root, .dark {
+  --primary:        #6366f1;
+  --primary-light:  #818cf8;
+  --secondary:      #22d3ee;
+  --accent:         #f472b6;
+  --success:        #34d399;
+  --warning:        #fbbf24;
+  --danger:         #f87171;
+
+  --bg-base:        #0f172a;
+  --bg-card:        #1e293b;
+  --bg-elevated:    #334155;
+  --bg-border:      #374151;
+  --bg-code:        #1a1b26;
+  --bg-code-header: #16161e;
+
+  --text-primary:   #f8fafc;
+  --text-secondary: #d1d5db;
+  --text-muted:     #94a3b8;
+  --text-dim:       #64748b;
+  --text-code:      #e5e7eb;
+
+  /* Reveal.js theme variables */
+  --r-background-color: #0f172a;
+  --r-main-color:       #f8fafc;
+  --r-heading-color:    #ffffff;
+  --r-link-color:       #818cf8;
+}
+
+.light {
+  --primary:        #4f46e5;
+  --primary-light:  #6366f1;
+  --secondary:      #0891b2;
+  --accent:         #ec4899;
+  --success:        #10b981;
+  --warning:        #d97706;
+  --danger:         #ef4444;
+
+  --bg-base:        #f1f5f9;
+  --bg-card:        #ffffff;
+  --bg-elevated:    #e2e8f0;
+  --bg-border:      #cbd5e1;
+  --bg-code:        #1e293b;   /* code blocks stay dark */
+  --bg-code-header: #0f172a;
+
+  --text-primary:   #0f172a;
+  --text-secondary: #1e293b;
+  --text-muted:     #475569;
+  --text-dim:       #64748b;
+  --text-code:      #e2e8f0;
+
+  /* Reveal.js theme variables */
+  --r-background-color: #f1f5f9;
+  --r-main-color:       #0f172a;
+  --r-heading-color:    #0f172a;
+  --r-link-color:       #4f46e5;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLOBAL BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REVEAL.JS — DARK MODE (default)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.reveal {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.02em;
+}
+
+.reveal h1 { font-size: 2.5em; }
+.reveal h2 { font-size: 1.8em; }
+.reveal h3 { font-size: 1.3em; }
+
+.reveal .slides section {
+  padding: 40px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE — REVEAL.JS OVERRIDES
+   DO NOT touch opacity/visibility — Reveal.js owns those.
+   Only override colors/backgrounds.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Slide background */
+.light .reveal-viewport {
+  background-color: var(--bg-base) !important;
+  background:       var(--bg-base) !important;
+}
+
+.light .reveal .slide-background {
+  background-color: var(--bg-base) !important;
+}
+
+/* Heading & body text */
+.light .reveal h1,
+.light .reveal h2,
+.light .reveal h3,
+.light .reveal h4 {
+  color: var(--r-heading-color) !important;
+}
+
+/* Navigation controls */
+.light .reveal .controls button { color: var(--text-muted); }
+.light .reveal .progress span   { background: var(--primary); }
+.light .reveal .slide-number    { color: var(--text-muted); }
+
+/* ── Override hardcoded inline dark colors in light mode ─────────────────── */
+
+/* Hardcoded white text → dark text */
+.light .reveal [style*="color: var(--r-heading-color)"],
+.light .reveal [style*="color:var(--r-heading-color)"] {
+  color: #0f172a !important;
+}
+
+/* Dark body text → readable in light */
+.light .reveal [style*="color: var(--text-secondary)"],
+.light .reveal [style*="color:var(--text-secondary)"] {
+  color: var(--text-secondary) !important;
+}
+.light .reveal [style*="color: var(--text-muted)"],
+.light .reveal [style*="color:var(--text-muted)"] {
+  color: var(--text-muted) !important;
+}
+.light .reveal [style*="color: var(--text-dim)"],
+.light .reveal [style*="color:var(--text-dim)"] {
+  color: var(--text-dim) !important;
+}
+
+/* Dark card backgrounds → white */
+.light .reveal [style*="background: var(--bg-card)"],
+.light .reveal [style*="background:var(--bg-card)"] {
+  background: var(--bg-card) !important;
+}
+.light .reveal [style*="background: var(--bg-elevated)"],
+.light .reveal [style*="background:var(--bg-elevated)"] {
+  background: var(--bg-elevated) !important;
+}
+
+/* Dark borders */
+.light .reveal [style*="border: 1px solid var(--bg-border)"],
+.light .reveal [style*="border:1px solid var(--bg-border)"] {
+  border-color: var(--bg-border) !important;
+}
+
+/* Dark title gradient slides → light gradient */
+.light .reveal [style*="background: linear-gradient(135deg, #0f172a"],
+.light .reveal [style*="background:linear-gradient(135deg, #0f172a"] {
+  background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%) !important;
+}
+
+/* Dark progress bars inside slides */
+.light .reveal [style*="background: #374151"],
+.light .reveal [style*="background:#374151"] {
+  background: var(--bg-elevated) !important;
+}
+
+/* Monospace text in inline code */
+.light .reveal [style*="fontFamily: 'monospace'"],
+.light .reveal [style*="font-family: monospace"] {
+  color: var(--primary) !important;
+}
+
+/* ── Tailwind utility class overrides ────────────────────────────────────── */
+.light .text-white       { color: var(--text-primary)   !important; }
+.light .text-gray-100    { color: var(--text-primary)   !important; }
+.light .text-gray-200    { color: var(--text-secondary) !important; }
+.light .text-gray-300    { color: var(--text-secondary) !important; }
+.light .text-gray-400    { color: var(--text-muted)     !important; }
+.light .text-gray-500    { color: var(--text-dim)       !important; }
+.light .bg-gray-800      { background: var(--bg-card)   !important; }
+.light .bg-gray-900      { background: var(--bg-elevated) !important; }
+.light .bg-gray-800\/50  { background: rgba(241,245,249,0.9) !important; }
+.light .border-gray-700  { border-color: var(--bg-border) !important; }
+.light .border-gray-600  { border-color: var(--bg-border) !important; }
+
+/* Table hover */
+.light .reveal table tbody tr:hover {
+  background: rgba(79, 70, 229, 0.06) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CODE BLOCKS — stay dark in BOTH modes (VS Code style)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.code-block {
+  position: relative;
+  background: #1a1b26;
+  border-radius: 10px;
+  border: 1px solid #374151;
+  overflow: hidden;
+  margin: 0;
+  text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #16161e;
+  border-bottom: 1px solid #374151;
+}
+
+.code-block-dot           { width: 10px; height: 10px; border-radius: 50%; }
+.code-block-dot.red       { background: #ff5f57; }
+.code-block-dot.yellow    { background: #febc2e; }
+.code-block-dot.green     { background: #28c840; }
+
+.code-block pre {
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow: auto;
+  font-family: 'Consolas', 'JetBrains Mono', monospace;
+  color: #e5e7eb;
+  background: transparent;
+}
+
+.code-block code {
+  font-family: 'Consolas', 'JetBrains Mono', monospace;
+  color: #e5e7eb;
+}
+
+/* In light mode code blocks keep the dark look + vivid syntax */
+.light .code-block             { background: #1e293b; border-color: #334155; }
+.light .code-block-header      { background: #0f172a; border-bottom-color: #334155; }
+.light .code-block pre         { color: #e2e8f0 !important; }
+.light .code-block code        { color: #e2e8f0 !important; }
+
+.light .code-block .hljs-keyword   { color: #c084fc !important; }
+.light .code-block .hljs-string    { color: #86efac !important; }
+.light .code-block .hljs-comment   { color: #94a3b8 !important; }
+.light .code-block .hljs-number    { color: #fbbf24 !important; }
+.light .code-block .hljs-function  { color: #67e8f9 !important; }
+.light .code-block .hljs-title     { color: #67e8f9 !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTROL PANEL
+   ═══════════════════════════════════════════════════════════════════════════ */
+.control-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg-card);
+  border-radius: 14px;
+  border: 1px solid var(--bg-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.control-btn:hover   { opacity: 0.85; }
+.control-btn:active  { opacity: 0.7; }
+.control-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.control-btn.primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.35);
+}
+
+.control-btn.secondary {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border: 1px solid var(--bg-border);
+}
+
+.control-btn.danger {
+  background: #ef4444;
+  color: white;
+}
+
+/* Speed slider */
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  border: 1px solid var(--bg-border);
+}
+
+.speed-control span {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.speed-control input[type="range"] {
+  width: 90px;
+  height: 4px;
+  -webkit-appearance: none;
+  background: var(--bg-border);
+  border-radius: 2px;
+  outline: none;
+}
+
+.speed-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ALGORITHM VISUALIZATION BARS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.algo-viz {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 30px;
+  min-height: 250px;
+}
+
+.algo-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  transition: height 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.algo-bar .value  { position: absolute; top: -28px; font-size: 14px; font-weight: 700; color: white; }
+.algo-bar .label  { position: absolute; bottom: -24px; font-size: 11px; color: var(--text-muted); font-family: monospace; }
+
+.algo-bar.default   { background: linear-gradient(180deg, #6366f1, #4f46e5); }
+.algo-bar.comparing { background: linear-gradient(180deg, #fbbf24, #f59e0b); box-shadow: 0 0 18px rgba(251,191,36,0.5); }
+.algo-bar.swapping  { background: linear-gradient(180deg, #f87171, #ef4444); box-shadow: 0 0 22px rgba(248,113,113,0.6); animation: swapGlow 0.35s ease-in-out; }
+.algo-bar.sorted    { background: linear-gradient(180deg, #34d399, #10b981); }
+.algo-bar.current   { background: linear-gradient(180deg, #22d3ee, #06b6d4); box-shadow: 0 0 18px rgba(34,211,238,0.5); }
+.algo-bar.found     { background: linear-gradient(180deg, #a78bfa, #8b5cf6); box-shadow: 0 0 26px rgba(167,139,250,0.7); animation: foundGlow 0.5s ease-in-out; }
+
+/* Glow-only animations (no transform = no blur) */
+@keyframes swapGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(248,113,113,0.4); }
+  50%       { box-shadow: 0 0 30px rgba(248,113,113,0.9); }
+}
+@keyframes foundGlow {
+  0%, 100% { box-shadow: 0 0 18px rgba(167,139,250,0.5); }
+  50%       { box-shadow: 0 0 40px rgba(167,139,250,0.9); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONCEPT CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.concept-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: left;
+}
+
+.concept-card h3  { color: var(--text-primary) !important; }
+.concept-card p,
+.concept-card div { color: var(--text-secondary) !important; }
+
+.concept-card.highlight {
+  border-color: var(--primary);
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPLEXITY CHART
+   ═══════════════════════════════════════════════════════════════════════════ */
+.complexity-chart {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid var(--bg-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MEMORY GRID
+   ═══════════════════════════════════════════════════════════════════════════ */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 4px;
+}
+
+.memory-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 2px solid var(--bg-border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.memory-cell.highlighted {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.memory-cell .address {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME TOGGLE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: 24px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.15s ease;
+}
+
+.theme-toggle:hover  { opacity: 0.85; }
+.theme-toggle:active { opacity: 0.7; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TABLE ROW HOVER
+   ═══════════════════════════════════════════════════════════════════════════ */
+.reveal .slides section table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.reveal .slides section table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: var(--bg-elevated); border-radius: 3px; }
+::-webkit-scrollbar-thumb        { background: var(--bg-border);   border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--text-dim); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+  .control-panel, .theme-toggle { display: none !important; }
+}
