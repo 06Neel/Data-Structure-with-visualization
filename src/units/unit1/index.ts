@@ -9,6 +9,7 @@ export { BubbleSortViz } from './visualizations/BubbleSortViz';
 export { InsertionSortViz } from './visualizations/InsertionSortViz';
 export { SelectionSortViz } from './visualizations/SelectionSortViz';
 export { MergeSortViz } from './visualizations/MergeSortViz';
+export { QuickSortViz } from './visualizations/QuickSortViz';
 export { LinearSearchViz } from './visualizations/LinearSearchViz';
 export { BinarySearchViz } from './visualizations/BinarySearchViz';
 export { ArrayInsertViz } from './visualizations/ArrayInsertViz';

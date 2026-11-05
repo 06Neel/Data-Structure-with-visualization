@@ -1,9 +1,9 @@
-﻿import { Deck, Slide, Stack } from '@revealjs/react';
+import { Deck, Slide, Stack } from '@revealjs/react';
 import { revealConfig, revealPlugins } from './config/revealConfig';
 import { ThemeToggle } from './components/Theme/ThemeToggle';
 import {
   TitleSlide, NavigationPage, ArraysOverview, ArrayTraversal,
-  BubbleSortViz, InsertionSortViz, SelectionSortViz, MergeSortViz,
+  BubbleSortViz, InsertionSortViz, SelectionSortViz, MergeSortViz, QuickSortViz,
   LinearSearchViz, BinarySearchViz,
   ArrayInsertViz, ArrayDeleteViz, ArrayMergeViz,
 } from './units/unit1';
@@ -61,7 +61,7 @@ function App() {
               {[
                 { icon: '⏱️', t: 'Complexity Analysis', d: 'Time, Space, Big O, Omega, Theta', c: '#6366f1', n: '13 slides' },
                 { icon: '📦', t: 'Arrays', d: 'Memory, Operations, Manipulation', c: '#22d3ee', n: '12 slides' },
-                { icon: '🔄', t: 'Sorting Algorithms', d: 'Bubble, Insertion, Selection', c: '#fbbf24', n: '20 slides' },
+                { icon: '🔄', t: 'Sorting Algorithms', d: 'Bubble, Insertion, Selection, Merge, Quick', c: '#fbbf24', n: '23 slides' },
                 { icon: '🔎', t: 'Searching Algorithms', d: 'Linear & Binary Search', c: '#34d399', n: '14 slides' },
               ].map((x) => (
                 <div key={x.t} style={{ ...card('rgba(31,41,55,0.5)', '#374151'), display: 'flex', gap: '14px', alignItems: 'center' }}>
@@ -540,7 +540,7 @@ ADDR(A[i][j]) = BASE + (j*2 + i)*4`)}
         {/* 25. Merge Viz */}
         <ArrayMergeViz />
 
-        {/* ===== 26-45. SORTING ===== */}
+        {/* ===== 26-48. SORTING ===== */}
         {/* 26. Sorting Overview */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
@@ -549,11 +549,12 @@ ADDR(A[i][j]) = BASE + (j*2 + i)*4`)}
             <div style={{ ...card('rgba(251,191,36,0.1)', 'rgba(251,191,36,0.3)'), marginBottom: '12px' }}>
               <p style={{ ...p, fontSize: '12px' }}>Sorting is a <strong style={{ color: '#fbbf24' }}>prerequisite</strong> for many algorithms (like binary search) and teaches: <strong style={{ color: 'white' }}>divide-and-conquer</strong>, <strong style={{ color: 'white' }}>recursion</strong>, and <strong style={{ color: 'white' }}>algorithm analysis</strong>.</p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '10px' }}>
               {[
                 { icon: '🫧', name: 'Bubble Sort', desc: 'Swap adjacent elements', best: 'O(n)', worst: 'O(n²)', c: '#3b82f6' },
                 { icon: '🃏', name: 'Insertion Sort', desc: 'Build sorted one by one', best: 'O(n)', worst: 'O(n²)', c: '#22c55e' },
                 { icon: '🔍', name: 'Selection Sort', desc: 'Find min, place at start', best: 'O(n²)', worst: 'O(n²)', c: '#a855f7' },
+                { icon: '🌪️', name: 'Quick Sort', desc: 'Pivot, partition, recurse', best: 'O(n log n)', worst: 'O(n²)', c: '#f97316' },
               ].map((x) => (
                 <div key={x.name} style={{ ...card(`${x.c}10`, `${x.c}30`) }}>
                   <div style={{ fontSize: '30px', marginBottom: '6px' }}>{x.icon}</div>
@@ -908,7 +909,91 @@ def merge(left, right):
         {/* 39. Merge Sort Viz */}
         <MergeSortViz />
 
-        {/* 40. Sorting Comparison */}
+        {/* 40. Quick Sort Concept */}
+        <Slide>
+          <div style={{ textAlign: 'left' }}>
+            <h2 style={h2s}>🌪️ Quick Sort — How It Works</h2>
+            <div style={under('#f97316')}></div>
+            <div style={grid2}>
+              <div style={card('rgba(31,41,55,0.5)', '#374151')}>
+                <h3 style={h3s('#f97316')}>Steps</h3>
+                {step(1, 'Pick a pivot (here: the last element).')}
+                {step(2, 'Partition: elements ≤ pivot go left, > pivot go right.')}
+                {step(3, 'Swap elements across the boundary while scanning.')}
+                {step(4, 'Place the pivot between the two sides — it is now final.')}
+                {step(5, 'Recursively sort the left and right sub-ranges.')}
+                <div style={{ ...miniCard('rgba(249,115,22,0.1)', 'rgba(249,115,22,0.3)'), marginTop: '8px' }}>
+                  <p style={{ ...p, fontSize: '10px' }}>🌪️ In-place divide-and-conquer. Average O(n log n), but O(n²) if the pivot is always the smallest/largest.</p>
+                </div>
+              </div>
+              {codeBlock(`def quick_sort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+        quick_sort(arr, low, p - 1)
+        quick_sort(arr, p + 1, high)
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+# Avg: O(n log n) | Worst: O(n²) | Space: O(log n)`)}
+            </div>
+          </div>
+        </Slide>
+
+        {/* 41. Quick Sort Dry Run */}
+        <Slide>
+          <div style={{ textAlign: 'left' }}>
+            <h2 style={h2s}>🌪️ Quick Sort — Dry Run</h2>
+            <div style={under('#f97316')}></div>
+            <div style={grid2}>
+              <div>
+                <div style={{ ...miniCard('rgba(249,115,22,0.1)', 'rgba(249,115,22,0.3)'), marginBottom: '8px' }}>
+                  <h4 style={{ color: '#f97316', fontSize: '12px', fontWeight: 'bold', marginBottom: '4px' }}>Input: [7, 2, 8, 1, 5] — pivot = 5</h4>
+                </div>
+                {[
+                  { step: 'Partition', desc: 'Scan [7,2,8,1] vs pivot 5', result: '7,8 stay right · 2,1 swap left' },
+                  { step: 'Swaps', desc: '2 ≤ 5 → swap · 1 ≤ 5 → swap', result: '[2, 1, 8, 7, 5]' },
+                  { step: 'Place pivot', desc: 'Swap pivot 5 with index 2', result: '[2, 1, 5, 7, 8] · 5 is final ✓' },
+                  { step: 'Left [2,1]', desc: 'Pivot 1 → [1, 2]', result: '[1, 2, 5, 7, 8]' },
+                  { step: 'Right [7,8]', desc: 'Pivot 8 → [7, 8]', result: '[1, 2, 5, 7, 8] ✓' },
+                ].map((s) => (
+                  <div key={s.step} style={{ ...card('rgba(31,41,55,0.5)', '#374151'), marginBottom: '6px', padding: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                      <span style={{ color: '#f97316', fontWeight: 'bold', fontSize: '11px' }}>{s.step}</span>
+                      <span style={{ color: '#9ca3af', fontSize: '10px' }}>{s.desc}</span>
+                    </div>
+                    <div style={{ color: '#22c55e', fontFamily: 'monospace', fontSize: '11px' }}>{s.result}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={card('rgba(31,41,55,0.5)', '#374151')}>
+                <h4 style={{ color: '#fbbf24', fontSize: '12px', fontWeight: 'bold', marginBottom: '6px' }}>Complexity</h4>
+                <div style={{ fontSize: '11px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #374151' }}><span style={{ color: '#9ca3af' }}>Best:</span><span style={{ color: '#22c55e', fontFamily: 'monospace' }}>O(n log n)</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #374151' }}><span style={{ color: '#9ca3af' }}>Average:</span><span style={{ color: '#22c55e', fontFamily: 'monospace' }}>O(n log n)</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #374151' }}><span style={{ color: '#9ca3af' }}>Worst:</span><span style={{ color: '#f87171', fontFamily: 'monospace' }}>O(n²) — bad pivots</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #374151' }}><span style={{ color: '#9ca3af' }}>Space:</span><span style={{ color: '#fbbf24', fontFamily: 'monospace' }}>O(log n) — recursion</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0' }}><span style={{ color: '#9ca3af' }}>In-place:</span><span style={{ color: '#22c55e', fontFamily: 'monospace' }}>Yes</span></div>
+                </div>
+                <div style={{ ...miniCard('rgba(249,115,22,0.1)', 'rgba(249,115,22,0.3)'), marginTop: '8px' }}>
+                  <p style={{ ...p, fontSize: '10px' }}>💡 Unstable sort. Used in C++ std::sort and Java primitives (with median-of-3 pivot).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Slide>
+
+        {/* 42. Quick Sort Viz */}
+        <QuickSortViz />
+
+        {/* 43. Sorting Comparison */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📊 Sorting Comparison</h2>
@@ -924,6 +1009,7 @@ def merge(left, right):
                     { name: 'Insertion Sort', best: 'O(n)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)', stable: 'Yes', adaptive: 'Yes', bc: '#22c55e', ac: '#fbbf24', wc: '#f87171', bg: 'rgba(34,197,94,0.05)' },
                     { name: 'Selection Sort', best: 'O(n²)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)', stable: 'No', adaptive: 'No', bc: '#fbbf24', ac: '#fbbf24', wc: '#f87171', bg: 'rgba(168,85,247,0.05)' },
                     { name: 'Merge Sort', best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n log n)', space: 'O(n)', stable: 'Yes', adaptive: 'No', bc: '#22c55e', ac: '#22c55e', wc: '#22c55e', bg: 'rgba(236,72,153,0.05)' },
+                    { name: 'Quick Sort', best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n²)', space: 'O(log n)', stable: 'No', adaptive: 'No', bc: '#22c55e', ac: '#22c55e', wc: '#f87171', bg: 'rgba(249,115,22,0.05)' },
                   ].map((r) => (
                     <tr key={r.name} style={{ borderBottom: '1px solid #374151', background: r.bg }}>
                       <td style={{ padding: '10px 12px', color: 'white', fontWeight: 'bold', fontSize: '12px' }}>{r.name}</td>
@@ -938,19 +1024,20 @@ def merge(left, right):
                 </tbody>
               </table>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '8px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', gap: '8px' }}>
               {[
                 { t: '🫧 Bubble?', d: 'Nearly sorted data, minimal code.', c: '#3b82f6' },
                 { t: '🃏 Insertion?', d: 'Small arrays (n<50), nearly sorted.', c: '#22c55e' },
                 { t: '🔍 Selection?', d: 'Minimize swaps (write-heavy).', c: '#a855f7' },
                 { t: '🔀 Merge?', d: 'Guaranteed O(n log n), stable sort.', c: '#ec4899' },
+                { t: '🌪️ Quick?', d: 'Fast general-purpose, in-place sort.', c: '#f97316' },
               ].map((x) => <div key={x.t} style={{ ...miniCard(`${x.c}10`, `${x.c}30`) }}><h4 style={{ color: x.c, fontSize: '11px', fontWeight: 'bold', marginBottom: '2px' }}>{x.t}</h4><p style={{ color: '#9ca3af', fontSize: '10px' }}>{x.d}</p></div>)}
             </div>
           </div>
         </Slide>
 
-        {/* 41-55. SEARCHING ===== */}
-        {/* 41. Searching Overview */}
+        {/* 44-58. SEARCHING ===== */}
+        {/* 44. Searching Overview */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔎 Searching Algorithms</h2>
@@ -974,7 +1061,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 42. Linear Search Concept */}
+        {/* 45. Linear Search Concept */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔎 Linear Search — How It Works</h2>
@@ -1003,7 +1090,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 43. Linear Search Dry Run */}
+        {/* 46. Linear Search Dry Run */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔎 Linear Search — Dry Run</h2>
@@ -1038,10 +1125,10 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 44. Linear Search Viz */}
+        {/* 47. Linear Search Viz */}
         <LinearSearchViz />
 
-        {/* 45. Binary Search Concept */}
+        {/* 48. Binary Search Concept */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⚡ Binary Search — How It Works</h2>
@@ -1077,7 +1164,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 46. Binary Search Dry Run */}
+        {/* 49. Binary Search Dry Run */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⚡ Binary Search — Dry Run</h2>
@@ -1117,10 +1204,10 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 47. Binary Search Viz */}
+        {/* 50. Binary Search Viz */}
         <BinarySearchViz />
 
-        {/* 48. Searching Comparison */}
+        {/* 51. Searching Comparison */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📊 Searching Comparison</h2>
@@ -1155,8 +1242,8 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* ===== 49-68. SUMMARY & EXTRA ===== */}
-        {/* 49. Key Concepts */}
+        {/* ===== 52-71. SUMMARY & EXTRA ===== */}
+        {/* 52. Key Concepts */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📊 Key Concepts Recap</h2>
@@ -1166,7 +1253,7 @@ def merge(left, right):
                 {[
                   { icon: '⏱️', t: 'Complexity Analysis', d: 'Big O (upper), Omega (lower), Theta (tight)', c: '#6366f1' },
                   { icon: '📦', t: 'Arrays', d: 'Contiguous memory, O(1) access, O(n) insert/delete', c: '#22d3ee' },
-                  { icon: '🔄', t: 'Sorting', d: 'Bubble, Insertion, Selection — all O(n²)', c: '#fbbf24' },
+                  { icon: '🔄', t: 'Sorting', d: 'Bubble, Insertion, Selection O(n²), Merge & Quick O(n log n)', c: '#fbbf24' },
                   { icon: '🔎', t: 'Searching', d: 'Linear O(n) vs Binary O(log n)', c: '#22c55e' },
                 ].map((x) => (
                   <div key={x.t} style={{ ...card(`${x.c}10`, `${x.c}30`), marginBottom: '8px', display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -1196,7 +1283,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 50. Cheat Sheet */}
+        {/* 53. Cheat Sheet */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📋 Complexity Cheat Sheet</h2>
@@ -1228,7 +1315,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 51. Practice Problems */}
+        {/* 54. Practice Problems */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🎯 Practice Problems</h2>
@@ -1251,7 +1338,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 52. Big O Cheat Sheet Visual */}
+        {/* 55. Big O Cheat Sheet Visual */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📊 Big O Cheat Sheet</h2>
@@ -1274,7 +1361,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 53. Space Complexity Deep Dive */}
+        {/* 56. Space Complexity Deep Dive */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>💾 Space Complexity Deep Dive</h2>
@@ -1294,6 +1381,7 @@ def merge(left, right):
                 {[
                   { algo: 'Bubble Sort', space: 'O(1)', reason: 'Only temp variable for swap' },
                   { algo: 'Merge Sort', space: 'O(n)', reason: 'Needs temp array for merging' },
+                  { algo: 'Quick Sort', space: 'O(log n)', reason: 'Recursion stack only' },
                   { algo: 'Binary Search', space: 'O(1)', reason: 'Only left, right, mid vars' },
                   { algo: 'Linear Search', space: 'O(1)', reason: 'Only index variable' },
                 ].map((x) => (
@@ -1308,7 +1396,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 54. Algorithm Analysis Tips */}
+        {/* 57. Algorithm Analysis Tips */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>💡 Algorithm Analysis Tips</h2>
@@ -1331,7 +1419,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 55. Real World Applications */}
+        {/* 58. Real World Applications */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🌍 Real World Applications</h2>
@@ -1352,7 +1440,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 56. Array Traversal Types */}
+        {/* 59. Array Traversal Types */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔍 Traversal Types</h2>
@@ -1373,7 +1461,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 57. Insertion Sort Variants */}
+        {/* 60. Insertion Sort Variants */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🃏 Insertion Sort Variants</h2>
@@ -1396,7 +1484,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 58. Selection Sort Properties */}
+        {/* 61. Selection Sort Properties */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔍 Selection Sort Properties</h2>
@@ -1430,7 +1518,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 59. Binary Search Iterative vs Recursive */}
+        {/* 62. Binary Search Iterative vs Recursive */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⚡ Binary Search: Iterative vs Recursive</h2>
@@ -1469,7 +1557,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 60. Binary Search Variations */}
+        {/* 63. Binary Search Variations */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⚡ Binary Search Variations</h2>
@@ -1492,7 +1580,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 61. Comparison Operators */}
+        {/* 64. Comparison Operators */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⚖️ Comparison Operators in Complexity</h2>
@@ -1530,7 +1618,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 62. Time Complexity of Common Operations */}
+        {/* 65. Time Complexity of Common Operations */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>⏱️ Time Complexity of Common Operations</h2>
@@ -1568,7 +1656,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 63. Stability in Sorting */}
+        {/* 66. Stability in Sorting */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔒 Stability in Sorting</h2>
@@ -1590,6 +1678,7 @@ def merge(left, right):
                   { algo: 'Insertion Sort', stable: 'Yes', reason: 'Inserts equal elements after existing', c: '#22c55e' },
                   { algo: 'Selection Sort', stable: 'No', reason: 'Long-distance swaps can change order', c: '#f87171' },
                   { algo: 'Merge Sort', stable: 'Yes', reason: 'Left half prioritized in merge', c: '#22c55e' },
+                  { algo: 'Quick Sort', stable: 'No', reason: 'Long-distance pivot swaps change order', c: '#f87171' },
                 ].map((x) => (
                   <div key={x.algo} style={{ padding: '4px 0', borderBottom: '1px solid #374151', fontSize: '10px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -1604,7 +1693,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 64. Adaptive vs Non-Adaptive */}
+        {/* 67. Adaptive vs Non-Adaptive */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔄 Adaptive vs Non-Adaptive</h2>
@@ -1628,7 +1717,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 65. Best Average Worst Cases */}
+        {/* 68. Best Average Worst Cases */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📊 Best / Average / Worst Cases</h2>
@@ -1652,7 +1741,7 @@ def merge(left, right):
           </div>
         </Slide>
 
-        {/* 66. Recursion Basics */}
+        {/* 69. Recursion Basics */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>🔄 Recursion Basics</h2>
@@ -1682,7 +1771,7 @@ def fib(n):
           </div>
         </Slide>
 
-        {/* 67. Memoization */}
+        {/* 70. Memoization */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>💾 Memoization — Optimizing Recursion</h2>
@@ -1717,13 +1806,13 @@ def fib_memo(n, memo={}):
           </div>
         </Slide>
 
-        {/* 68. Thank You */}
+        {/* 71. Thank You */}
         <Slide>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #0f172a, #1e1b4b, #0f172a)' }}>
             <div style={{ fontSize: '64px', marginBottom: '16px' }}>🎓</div>
             <h1 style={{ fontSize: '36px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Unit 1 Complete!</h1>
             <p style={{ color: '#9ca3af', fontSize: '16px', marginBottom: '8px' }}>You've mastered the fundamentals of DSA</p>
-            <p style={{ color: '#6b7280', fontSize: '12px', marginBottom: '20px' }}>65 slides covering Complexity, Arrays, Sorting & Searching</p>
+            <p style={{ color: '#6b7280', fontSize: '12px', marginBottom: '20px' }}>68 slides covering Complexity, Arrays, Sorting & Searching</p>
             <div style={{ padding: '12px 24px', background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '12px' }}>
               <span style={{ color: '#22c55e', fontWeight: '600' }}>Next: Unit 2 — Linked Lists →</span>
             </div>
@@ -1732,7 +1821,7 @@ def fib_memo(n, memo={}):
 
         {/* ===== UNIT 2: LINKED LISTS ===== */}
 
-        {/* 69. Unit 2 Intro */}
+        {/* 72. Unit 2 Intro */}
         <Slide>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #0f172a, #1e3a5f, #0f172a)' }}>
             <div style={{ fontSize: '64px', marginBottom: '16px' }}>🔗</div>
@@ -1753,46 +1842,46 @@ def fib_memo(n, memo={}):
           </div>
         </Slide>
 
-        {/* 70. LL: What is a Linked List? */}
+        {/* 73. LL: What is a Linked List? */}
         <LLIntro />
 
-        {/* 71. LL: Memory Representation */}
+        {/* 74. LL: Memory Representation */}
         <LLMemory />
 
-        {/* 72. LL: Memory Allocation */}
+        {/* 75. LL: Memory Allocation */}
         <LLAllocation />
 
-        {/* 73. LL: Traversal Concept */}
+        {/* 76. LL: Traversal Concept */}
         <LLTraversal />
 
-        {/* 74. LL: Traversal Visualization */}
+        {/* 77. LL: Traversal Visualization */}
         <LLTraversalViz />
 
-        {/* 75. LL: Insertion Concept */}
+        {/* 78. LL: Insertion Concept */}
         <LLInsertion />
 
-        {/* 76. LL: Insertion Visualization */}
+        {/* 79. LL: Insertion Visualization */}
         <LLInsertViz />
 
-        {/* 77. LL: Deletion Concept */}
+        {/* 80. LL: Deletion Concept */}
         <LLDeletion />
 
-        {/* 78. LL: Deletion Visualization */}
+        {/* 81. LL: Deletion Visualization */}
         <LLDeleteViz />
 
-        {/* 79. LL: Header Linked Lists */}
+        {/* 82. LL: Header Linked Lists */}
         <LLHeader />
 
-        {/* 80. LL: Grounded vs Circular */}
+        {/* 83. LL: Grounded vs Circular */}
         <LLGroundedCircular />
 
-        {/* 81. LL: Doubly Linked List Concept */}
+        {/* 84. LL: Doubly Linked List Concept */}
         <DoublyLinkedList />
 
-        {/* 82. LL: Doubly Linked List Visualization */}
+        {/* 85. LL: Doubly Linked List Visualization */}
         <DoublyLLViz />
 
-        {/* 83. Unit 2 Summary */}
+        {/* 86. Unit 2 Summary */}
         <Slide>
           <div style={{ textAlign: 'left' }}>
             <h2 style={h2s}>📝 Unit 2 Summary — Linked Lists</h2>
@@ -1832,7 +1921,7 @@ def fib_memo(n, memo={}):
           </div>
         </Slide>
 
-        {/* 84. Thank You — Unit 2 */}
+        {/* 87. Thank You — Unit 2 */}
         <Slide>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #0f172a, #1e3a5f, #0f172a)' }}>
             <div style={{ fontSize: '64px', marginBottom: '16px' }}>🎓</div>

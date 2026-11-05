@@ -11,26 +11,27 @@ interface NavItem {
 
 const sections: NavItem[] = [
   { icon: '⏱️', title: 'Complexity Analysis', description: 'Time, Space, Big O, Omega, Theta', color: '#6366f1', slide: 5 },
-  { icon: '📦', title: 'Arrays', description: 'Memory, Operations, Manipulation', color: '#22d3ee', slide: 14 },
-  { icon: '🔄', title: 'Sorting Algorithms', description: 'Bubble, Insertion, Selection, Merge', color: '#fbbf24', slide: 28 },
+  { icon: '📦', title: 'Arrays', description: 'Memory, Operations, Manipulation', color: '#22d3ee', slide: 12 },
+  { icon: '🔄', title: 'Sorting Algorithms', description: 'Bubble, Insertion, Selection, Merge, Quick', color: '#fbbf24', slide: 24 },
   { icon: '🔎', title: 'Searching Algorithms', description: 'Linear & Binary Search', color: '#34d399', slide: 42 },
-  { icon: '🔗', title: 'Linked Lists', description: 'Singly, Doubly, Circular Lists', color: '#22d3ee', slide: 69 },
-  { icon: '🧠', title: 'LL Memory & Allocation', description: 'Static vs Dynamic allocation', color: '#a855f7', slide: 71 },
-  { icon: '➕', title: 'LL Operations', description: 'Traversal, Insertion, Deletion', color: '#22c55e', slide: 73 },
-  { icon: '↔️', title: 'Doubly & Circular', description: 'Advanced linked list types', color: '#ec4899', slide: 80 },
+  { icon: '🔗', title: 'Linked Lists', description: 'Singly, Doubly, Circular Lists', color: '#22d3ee', slide: 71 },
+  { icon: '🧠', title: 'LL Memory & Allocation', description: 'Static vs Dynamic allocation', color: '#a855f7', slide: 72 },
+  { icon: '➕', title: 'LL Operations', description: 'Traversal, Insertion, Deletion', color: '#22c55e', slide: 74 },
+  { icon: '↔️', title: 'Doubly & Circular', description: 'Advanced linked list types', color: '#ec4899', slide: 81 },
 ];
 
 const quickLinks: { label: string; slide: number; color: string }[] = [
-  { label: '🫧 Bubble Sort', slide: 31, color: '#3b82f6' },
-  { label: '🃏 Insertion Sort', slide: 34, color: '#22c55e' },
-  { label: '🔍 Selection Sort', slide: 37, color: '#a855f7' },
-  { label: '🔀 Merge Sort', slide: 40, color: '#ec4899' },
+  { label: '🫧 Bubble Sort', slide: 28, color: '#3b82f6' },
+  { label: '🃏 Insertion Sort', slide: 31, color: '#22c55e' },
+  { label: '🔍 Selection Sort', slide: 34, color: '#a855f7' },
+  { label: '🔀 Merge Sort', slide: 37, color: '#ec4899' },
+  { label: '🌪️ Quick Sort', slide: 40, color: '#f97316' },
   { label: '📏 Linear Search', slide: 45, color: '#22d3ee' },
   { label: '⚡ Binary Search', slide: 48, color: '#22c55e' },
-  { label: '🔗 LL Traversal', slide: 74, color: '#22d3ee' },
-  { label: '➕ LL Insertion', slide: 76, color: '#22c55e' },
-  { label: '🗑️ LL Deletion', slide: 78, color: '#ef4444' },
-  { label: '↔️ Doubly LL', slide: 82, color: '#a855f7' },
+  { label: '🔗 LL Traversal', slide: 75, color: '#22d3ee' },
+  { label: '➕ LL Insertion', slide: 77, color: '#22c55e' },
+  { label: '🗑️ LL Deletion', slide: 79, color: '#ef4444' },
+  { label: '↔️ Doubly LL', slide: 83, color: '#a855f7' },
 ];
 
 export const NavigationPage: React.FC = () => {
